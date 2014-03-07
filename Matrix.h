@@ -44,10 +44,10 @@ class Matrix
   bool Compare(string);		                    // comparaison de matrices (M)&(M)
   bool Range();			                          // rang de la matrice (M)
   bool Transpose();		                        // transposée de la matrice (M)
-  bool Identity();			                      // créé la matrice identité avec les même dimension que la matrice ouverte
+  bool Identity();			                      // créé la matrice identité avec les même dimension que la matrice ouverteprivate:
 
-	private:
-	
+  private:
+  
   double **buffMatrix;		                    // sauvegarde de la matrice dans un fichier.txt
   fstream M;			                            // le fichier de la matrice sur laquelle on travaille
 		
