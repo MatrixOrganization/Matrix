@@ -1,0 +1,98 @@
+GROUPE LOS POLLOS HERMANOS
+
+MAXIME DI LORENZO - TESTEUR
+ADRIAN SALAS - TESTEUR
+THIBAUT DUMALIN - CHEF DE PROJET
+ALEXANDRE MOINE - COORDINATEUR
+
+Cahier des Charges
+(développeurs)
+Développeurs:
+
+Contraintes au développement
+
+* Les fichiers doivent être correctement commentés afin d’être compris par toute l’équipe.
+* Les nom des variables et fonctions doivent être clair.
+* La complexité de chaque opération doit être indiquée dans un cahier de développement.
+
+
+Le traitement des grandes matrices:
+fichier texte avec: (ligne colonne valeur)
+
+Comment optimiser mon programme ?
+multiplication : ne pas réaliser de calculs avec des 0 et ne pas réaliser les calculs avec 1
+addition : ne pas réaliser de calculs avec des 0
+soustraction: ne pas réaliser de calculs avec des 0
+division: ne pas diviser par 1 ou ne pas diviser 0  ou par un autre nombre
+
+Quels problèmes à éviter ?
+division par 0
+0^0
+
+Agenda Développeur /18 heures
+
+(21/02) 3 heures: élaboration du cahier des charges
+(07/03) 3 heures: création des fichiers de base (entêtes des principales fonctions ,variables etc)
+(21/04) 3 heures: développement répartition des fonctions à développer
+(04/04) 3 heures: test intermédiare, développement de l’interface
+(16/04) 3 heures: Test et perfectionnement
+(16/05) 3 heures: finalisation du projet
+
+Le programme commencera par un message d’accueil et une liste des opérations (interface utilisateur). L'utilisateur doit avoir le choix entre ces différentes opérations, il y a une option dite « HELP » donnant plus ample informations sur l'utilisation des différentes fonctions.
+Le choix des options sera réalisé avec une simple boucle vérifiant les entrées claviers de l’utilisateur
+
+Fonctionnalités de base:
+
+Fonctions sur les matrices
+• Opérations élémentaires à réaliser 
+	- Addition
+	- Soustraction
+	- Multiplication
+	- Division
+	- Modulo
+	- Comparaisons
+• Opérations complexes à réaliser
+	- Rang 
+	- Transposée
+	- Matrice à l’exposant n
+	- Calcul de l’identité de la matrice.
+• Afficher la partie concernée de la matrice
+• Optimisation
+
+Fonctionnalités pouvant être ajoutées:
+
+	- Multiplication d’une matrice par un nombre (m)
+	- Inversion d’une matrice
+	- Trace d’une matrice (somme de la diagonale (besoin d’une matrice carré, sinon non))
+	- Lors de l’affichage de la matrice, mettre en couleur la valeur demandée (on verra mieux ?)
+	- Séparer la matrice de base et le résultat de l’opération dans des fichiers .txt différents
+
+Interface utilisateur:
+
+Le menu d’accueil propose à l’utilisateur de choisir parmi une liste d’opérations ce qu’il veut faire (voir fonctionnalités). Après son choix, on lui proposera de faire une opération sur la matrice “de base” ou bien de continuer sur la matrice obtenue après la première opération. Les matrices pouvant être trop grandes, impossible de lui proposer une fonction pour afficher celle-ci mais on peut lui proposer de voir un échantillon de la matrice pour vérifier que l’opération a fonctionné. L’utilisateur choisira les variables sur lesquelles il veut appliquer l’opération.
+
+Liste des commandes d’utilisateur:
+-commande creer matrice:
+ 	permettant de créé une matrice de dimension donnée par l’utilisateur avec des valeur aléatoire.
+	(ex: CreerMatrice *nom de la matrice*)
+-commande help : 
+Permet de donné les différente commande du programme , help + une commande donne des information sur cette commande
+ (ex: help)
+(ex: help addition)
+-commande affiche base de donnée:
+Affiche les matrices déjà crée dans la base
+ (ex:Aff)
+-commande ouvrir une matrice :
+L’utilisateur sélectionne la matrice sur laquelle il souhaite travailler affiche un message d’erreur si la matrice n’existe pas.
+(ex: Ouvrir Matrice1)
+-commande retour:
+	Permet de revenir en arrière dans le programme.
+	(ex: Retour)
+-commande supprimer : 
+suivie d’un nom de matrice permet de supprimer une matrice de la base de donnée. Retourne un message d’erreur si la matrice n’existe pas
+	(ex:Suppr Matrice1)
+-commande quitter:
+	Permet à l’utilisateur de quitter le programme en cours (/!\ message de confirmation nécessaire      pour éviter les fausses manipulations)
+	(ex: quit )
+             Voulez vous vraiment quitter ? ( O /N )
+
