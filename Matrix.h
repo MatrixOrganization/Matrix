@@ -44,8 +44,8 @@ class Matrix
   bool Compare(string);		                    		// comparaison de matrices (M)&(M)
   bool Range();			                          	// rang de la matrice (M)
   bool Transpose();		                        	// transposée de la matrice (M)
-  bool Identity();			                      	// créé la matrice identité avec les même dimension que la matrice ouverteprivate:
-
+  bool Identity();			                      	/* créé la matrice identité avec les même dimension 
+  								que la matrice ouverte */
   private:
   
   double **buffMatrix;		                    		// sauvegarde de la matrice dans un fichier.txt
