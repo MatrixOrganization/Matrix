@@ -12,9 +12,9 @@ void Matrix::Menu()
 	string s;
 	cout<< "Que voulez vous faire ?" << endl 
 	<< "1-Ouvrir une matrice" << endl 
-	<< "2-Afficher les matrices de la base de donnée"<<endl
-	<< "3-help" <<endl
-	<<"4-Quitter"<<endl;
+	<< "2-Afficher les matrices de la base de donnée" << endl
+	<< "3-Help" << endl
+	<< "4-Quitter" << endl;
 	cin>>command;
 	if(command==1)//OPEN
 	{
