@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>
 
 using namespace std;
 
@@ -15,19 +16,27 @@ class Matrix
 
   //Commandes:
   
-  void NewMatrix();		                        	// creer une matrice aléatoire OU non
+  void NewMatrix(long, long);		                        	// creer une matrice aléatoire
   void Back();			                          	// permet de revenir à l’étape précédente
   bool Delete(string);		                    		// supprime une matrice de la BDD
   void DisplayDB();		                        	  // affiche les matrices de la BDD
   bool Open(string) ;	                        		// ouvre un fichier txt “s” pour créer la matrice
   void Help(string) ; 		                    		// donne des infos sur chaque opération ou cmd
+<<<<<<< HEAD
   void Quit();			                            	// quitte et ferme tous les fichiers ouverts
   bool OpenFile();                                // retourne true si le fichier existe/s'est correctement ouvert
   bool CloseFile();                               // retourne true si
+=======
+<<<<<<< HEAD
+  void Quit();	                            	// quitte et ferme tous les fichiers ouverts 
+=======
+  void Quit();			                            	// quitte et ferme tous les fichiers ouverts 
+>>>>>>> 6f797f5e41a1b6845080028f01ff93d7064cc0f5
+>>>>>>> 9970a477139ed9a7330174c75d037405b707b10b
 
   //Les fonctions de manipulation sont des bool pour renvoyer false en cas d’erreur
 
-  //Manipulation:
+  //Manipulation
   
   bool SoustractionM(string); 	              			// soustraction de matrices (M)-(M)
   bool SoustractionV(double);	                		// soustraction de la matrice par une valeur (M)-Val
@@ -50,10 +59,15 @@ class Matrix
   								                              que la matrice ouverte */
   private:
   
+<<<<<<< HEAD
   double **buffMatrix;		                    		    // sauvegarde de la matrice dans un fichier.txt
   String FileName;			                            	// le nom du fichier de la matrice sur laquelle on travaille
 		
   protected:
+=======
+  double **buffMatrix;		                    		// sauvegarde de la matrice dans un fichier.txt
+  fstream M;			                            	// le fichier de la matrice sur laquelle on travaille
+>>>>>>> 9970a477139ed9a7330174c75d037405b707b10b
 
 }
 
