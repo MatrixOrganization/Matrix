@@ -20,7 +20,7 @@ class Matrix
   void Back();			                          	// permet de revenir à l’étape précédente
   bool Delete(string);		                    		// supprime une matrice de la BDD
   void DisplayDB();		                        	  // affiche les matrices de la BDD
-  bool Open(string);	                        		// ouvre un fichier txt “s” pour créer la matrice
+  fstream Open(string);	                        		// ouvre un fichier txt “s” pour créer la matrice
   void Help(string); 		                    		// donne des infos sur chaque opération ou cmd
   void Quit();			                            	// quitte et ferme tous les fichiers ouverts
   bool OpenFile();                                // retourne true si le fichier existe/s'est correctement ouvert
@@ -61,7 +61,7 @@ class Matrix
   
     double **buffMatrix;		                    		    // sauvegarde de la matrice dans un fichier.txt
     String FileName;			                            	// le nom du fichier de la matrice sur laquelle on travaille
-};
+}
 
 #endif // MATRIX_H
 
