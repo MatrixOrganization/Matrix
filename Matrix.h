@@ -61,7 +61,7 @@ class Matrix
   
     double **buffMatrix;		                    		    // sauvegarde de la matrice dans un fichier.txt
     String FileName;			                            	// le nom du fichier de la matrice sur laquelle on travaille
-}
+};
 
 #endif // MATRIX_H
 
