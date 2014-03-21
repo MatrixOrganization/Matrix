@@ -60,3 +60,42 @@ void Matrix::Menu()
     return false; // pas creuse
 }
 
+void Matrix::NewMatrix(long height, long weight)
+{
+	int sizeChoice;
+	cout << "Choix de la taille des valeurs" << endl;
+	cout << "Si 0-9: tapez 10; si 0-99: tapez 100; si 0-999: tapez 1000; si 0-9999: tapez 10000" << endl;
+	cin >> sizeChoice;
+
+	string nameFile;
+	cout << "Nom du fichier de la matrice:" << endl << " -> ";
+	cin >> nameFile;
+
+	ofstream newMat(nameFile.c_str(), ios::out | ios::trunc);
+		if(!newMat.is_open())
+    		cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
+
+		else
+		{
+			newMat << "L C V" << endl;
+			for(int i=1; i<height; i++)
+			{
+				for(int j=1; j<weight; j++)
+				{
+					newMat << i << " " << j << " " << rand()%sizeChoice << endl;
+				}
+			}
+			newMat << " " << endl;
+		}
+		newMat.close();
+
+	return 0;
+}
+
+void Matrix::Help(string)
+{
+	if(string=="open")
+		cout << "Permet l'ouverture d'un fichier contenant une matrice (nom du fichier en argument)" << endl;
+	if(string=="displaybdd")
+		cout << "Permet d'afficher les matrices dans la base de données" << endl;
+}
