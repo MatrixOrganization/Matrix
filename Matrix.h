@@ -22,7 +22,11 @@ class Matrix
   void DisplayDB();		                        	// affiche les matrices de la BDD
   bool Open(string) ;	                        		// ouvre un fichier txt “s” pour créer la matrice
   void Help(string) ; 		                    		// donne des infos sur chaque opération ou cmd
+<<<<<<< HEAD
   void Quit();	                            	// quitte et ferme tous les fichiers ouverts 
+=======
+  void Quit();			                            	// quitte et ferme tous les fichiers ouverts 
+>>>>>>> 6f797f5e41a1b6845080028f01ff93d7064cc0f5
 
   //Les fonctions de manipulation sont des bool pour renvoyer false en cas d’erreur
 
