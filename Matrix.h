@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ctime>
 
 using namespace std;
 
@@ -15,17 +16,17 @@ class Matrix
 
   //Commandes:
   
-  void NewMatrix();		                        	// creer une matrice aléatoire OU non
+  void NewMatrix(long, long);		                        	// creer une matrice aléatoire
   void Back();			                          	// permet de revenir à l’étape précédente
   bool Delete(string);		                    		// supprime une matrice de la BDD
   void DisplayDB();		                        	// affiche les matrices de la BDD
   bool Open(string) ;	                        		// ouvre un fichier txt “s” pour créer la matrice
   void Help(string) ; 		                    		// donne des infos sur chaque opération ou cmd
-  void Quit()			                            	// quitte et ferme tous les fichiers ouverts 
+  void Quit();	                            	// quitte et ferme tous les fichiers ouverts 
 
   //Les fonctions de manipulation sont des bool pour renvoyer false en cas d’erreur
 
-  //Manipulation:
+  //Manipulation
   
   bool SoustractionM(string); 	              			// soustraction de matrices (M)-(M)
   bool SoustractionV(double);	                		// soustraction de la matrice par une valeur (M)-Val
@@ -50,8 +51,6 @@ class Matrix
   
   double **buffMatrix;		                    		// sauvegarde de la matrice dans un fichier.txt
   fstream M;			                            	// le fichier de la matrice sur laquelle on travaille
-		
-  protected:
 
 }
 
