@@ -18,10 +18,12 @@ class Matrix
   void NewMatrix();		                        	// creer une matrice aléatoire OU non
   void Back();			                          	// permet de revenir à l’étape précédente
   bool Delete(string);		                    		// supprime une matrice de la BDD
-  void DisplayDB();		                        	// affiche les matrices de la BDD
+  void DisplayDB();		                        	  // affiche les matrices de la BDD
   bool Open(string) ;	                        		// ouvre un fichier txt “s” pour créer la matrice
   void Help(string) ; 		                    		// donne des infos sur chaque opération ou cmd
-  void Quit()			                            	// quitte et ferme tous les fichiers ouverts 
+  void Quit();			                            	// quitte et ferme tous les fichiers ouverts
+  bool OpenFile();                                // retourne true si le fichier existe/s'est correctement ouvert
+  bool CloseFile();                               // retourne true si
 
   //Les fonctions de manipulation sont des bool pour renvoyer false en cas d’erreur
 
@@ -45,11 +47,11 @@ class Matrix
   bool Range();			                          	// rang de la matrice (M)
   bool Transpose();		                        	// transposée de la matrice (M)
   bool Identity();			                      	/* créé la matrice identité avec les même dimension 
-  								que la matrice ouverte */
+  								                              que la matrice ouverte */
   private:
   
-  double **buffMatrix;		                    		// sauvegarde de la matrice dans un fichier.txt
-  fstream M;			                            	// le fichier de la matrice sur laquelle on travaille
+  double **buffMatrix;		                    		    // sauvegarde de la matrice dans un fichier.txt
+  String FileName;			                            	// le nom du fichier de la matrice sur laquelle on travaille
 		
   protected:
 
