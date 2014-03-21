@@ -59,7 +59,6 @@ class Matrix
   protected:
   
     double **buffMatrix;		                    		// sauvegarde de la matrice dans un fichier.txt
-    fstream M;			                            	// le fichier de la matrice sur laquelle on travaille
 
 }
 
