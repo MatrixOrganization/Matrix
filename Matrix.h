@@ -20,8 +20,8 @@ class Matrix
   void Back();			                          	// permet de revenir à l’étape précédente
   bool Delete(string);		                    		// supprime une matrice de la BDD
   void DisplayDB();		                        	  // affiche les matrices de la BDD
-  bool Open(string) ;	                        		// ouvre un fichier txt “s” pour créer la matrice
-  void Help(string) ; 		                    		// donne des infos sur chaque opération ou cmd
+  bool Open(string);	                        		// ouvre un fichier txt “s” pour créer la matrice
+  void Help(string); 		                    		// donne des infos sur chaque opération ou cmd
   void Quit();			                            	// quitte et ferme tous les fichiers ouverts
   bool OpenFile();                                // retourne true si le fichier existe/s'est correctement ouvert
   bool CloseFile();                               // retourne true si
@@ -49,17 +49,18 @@ class Matrix
   bool Compare(string);		                    		// comparaison de matrices (M)&(M)
   bool Range();			                          	// rang de la matrice (M)
   bool Transpose();		                        	// transposée de la matrice (M)
-  bool Identity();			                      	/* créé la matrice identité avec les même dimension 
-  								                              que la matrice ouverte */
+  bool Identity();						// créé la matrice identité avec les même dimension que la matrice ouverte
+  
+    // Fonctions sur les matrices
+
+  double Read_Value();                                    // lit et retourne une valeur de la matrice
+  bool Sparse(); 					// matrice creuse ?
+  
+  
   private:
   
     double **buffMatrix;		                    		    // sauvegarde de la matrice dans un fichier.txt
     String FileName;			                            	// le nom du fichier de la matrice sur laquelle on travaille
-		
-  protected:
-  
-    double **buffMatrix;		                    		// sauvegarde de la matrice dans un fichier.txt
-
 }
 
 #endif // MATRIX_H
