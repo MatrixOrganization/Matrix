@@ -34,8 +34,29 @@ void Matrix::Menu()
 		Quit();
 	}
 }
+
  void Matrix::DisplayDB()
  {
 	//sous entend que les matrices se trouvent dans le dossier DB 
 	system("for i in DB/* do echo i \" \";done");	
  }
+ 
+ bool Sparse() // matrice creuse ?
+{
+    int nb_value_zero = 0, nb_value = 0, percent_sparse = 70; // matrice creuse si 70% des valeurs sont = 0
+    string value;
+
+    while(getline(M, value))
+    {
+        nb_value++;
+        if(value == 0)
+            nb_value_zero++;
+    }
+
+    nb_value_zero = (nb_value_zero*100)/nb_value;
+
+    if(nb_value_zero >= percent_sparse)
+        return true; // creuse
+    return false; // pas creuse
+}
+
