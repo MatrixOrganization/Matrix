@@ -22,17 +22,11 @@ class Matrix
   void DisplayDB();		                        	  // affiche les matrices de la BDD
   bool Open(string) ;	                        		// ouvre un fichier txt “s” pour créer la matrice
   void Help(string) ; 		                    		// donne des infos sur chaque opération ou cmd
-<<<<<<< HEAD
   void Quit();			                            	// quitte et ferme tous les fichiers ouverts
   bool OpenFile();                                // retourne true si le fichier existe/s'est correctement ouvert
   bool CloseFile();                               // retourne true si
-=======
-<<<<<<< HEAD
-  void Quit();	                            	// quitte et ferme tous les fichiers ouverts 
-=======
-  void Quit();			                            	// quitte et ferme tous les fichiers ouverts 
->>>>>>> 6f797f5e41a1b6845080028f01ff93d7064cc0f5
->>>>>>> 9970a477139ed9a7330174c75d037405b707b10b
+
+  void Quit();	                            	// quitte et ferme tous les fichiers ouverts
 
   //Les fonctions de manipulation sont des bool pour renvoyer false en cas d’erreur
 
@@ -59,15 +53,13 @@ class Matrix
   								                              que la matrice ouverte */
   private:
   
-<<<<<<< HEAD
-  double **buffMatrix;		                    		    // sauvegarde de la matrice dans un fichier.txt
-  String FileName;			                            	// le nom du fichier de la matrice sur laquelle on travaille
+    double **buffMatrix;		                    		    // sauvegarde de la matrice dans un fichier.txt
+    String FileName;			                            	// le nom du fichier de la matrice sur laquelle on travaille
 		
   protected:
-=======
-  double **buffMatrix;		                    		// sauvegarde de la matrice dans un fichier.txt
-  fstream M;			                            	// le fichier de la matrice sur laquelle on travaille
->>>>>>> 9970a477139ed9a7330174c75d037405b707b10b
+  
+    double **buffMatrix;		                    		// sauvegarde de la matrice dans un fichier.txt
+    fstream M;			                            	// le fichier de la matrice sur laquelle on travaille
 
 }
 

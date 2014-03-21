@@ -1,6 +1,5 @@
 #include “Matrix.h”
 
-<<<<<<< HEAD
 void Matrix::Open(string FileName)
 {
 	cout << "Quelle matrice voulez-vous ouvrir? " << endl;
@@ -14,8 +13,9 @@ void Matrix::Open(string FileName)
 		cin >> Filename;
 
 	} while (!OpenFile());
-=======
-void Matrix::newMatrix(long height, long weight)
+}
+
+void Matrix::NewMatrix(long height, long weight)
 {
 	int sizeChoice;
 	cout << "Choix de la taille des valeurs" << endl;
@@ -41,5 +41,5 @@ void Matrix::newMatrix(long height, long weight)
 		}
 	}
 	*/
->>>>>>> 9970a477139ed9a7330174c75d037405b707b10b
+	
 }
