@@ -1,7 +1,13 @@
-#include “Matrix.h”
+#include <iostream>
+#include "Matrix.h"
 
-int main(int argc, char *argv[])
+using namespace std;
+
+int main()
 {
-	Matrix m.Begin(); 
-  	return 0;
+
+    Matrix a;
+    a.Begin();
+
+    return 0;
 }
