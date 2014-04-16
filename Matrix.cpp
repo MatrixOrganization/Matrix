@@ -1,4 +1,3 @@
-
 #include "Matrix.h"
 #include <stdlib.h>
 void Matrix::Begin()
@@ -55,15 +54,19 @@ void Matrix::CloseFile(int m)
     else if(m==2)M2.close();
     else if(m==3)M3.close();
 }
-
+void Matrix::Read_Size(int matrice,int & l,int &c)
+{
+    string s;
+    if(matrice==1) M1 >> l >> c;
+    else if(matrice==2) M2 >> l >> c;
+}
 void Matrix::Read_Value(int matrice,int &l, int &c, double &v) // lit et retourne une valeur de la matrice
  {
 
     if(matrice==1)M1 >> l >> c >> v;
     else if(matrice==2)M2 >> l >> c >> v;
     else cout << "La matrice n'existe pas"<<endl;
-     cout<<"ici"<<endl;
-    cout<<v<<endl;
+
  }
 
  void Matrix::DisplayDB()
@@ -115,16 +118,17 @@ void Matrix::NewMatrix()
     string nameFile;
     cout << "Nom du fichier de la matrice:" << endl << " -> ";
     cin >> nameFile;
-
+    nameFile+=".txt";
     ofstream newMat(nameFile.c_str(), ios::out | ios::trunc);
         if(!newMat.is_open())
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
 
         else
         {
-            for(int i=1; i<height; i++)
+            newMat << height << " " << weight << endl;
+            for(int i=0; i<height; i++)
             {
-                for(int j=1; j<weight; j++)
+                for(int j=0; j<weight; j++)
                 {
                     newMat << i << " " << j << " " << rand()%sizeChoice << endl;
                 }
@@ -164,65 +168,242 @@ void Matrix::Help(string chaine)
     if(chaine=="divisionV")
         cout << "Permet de faire une division entre une matrice et une valeur (valeur en argument)" << endl;
 }
-bool Matrix::Check_Size(int & l,int & c)
+bool Matrix::Check_Size(char param,int & l,int & c)
 {
-    M1.seekg(0,ios::end);
-    M2.seekg(10,ios::end);
-    return true;
+    int l1,c1,l2,c2;
+    Read_Size(1,l1,c1);
+    Read_Size(2,l2,c2);
+    if(param=='m' && l2==c1)
+    {
+        l=l1;
+        c=c2;
+        return true;
+    }
+    if((param=='a' || param=='s') && (l1==l2 && c1==c2))
+    {
+        l=l1;
+        c=c1;
+       return true;
+    }
+     return false;
 }
-double Matrix::Place_to_Coord(int line,int col)
+double Matrix::Place_to_Coord(int matrix,int line,int col)
 {
     string chaine;
     int l,c;
     double v;
-    while(getline(M2,chaine))
+
+    if(matrix==1)
     {
-        Read_Value(2,l,c,v);
-        if(l==line && c==col)return v;
+        while(!M1.eof())
+        {
+            Read_Value(1,l,c,v);
+            if(l==line && c==col)return v;
+        }
     }
+    else
+    {
+        while(!M2.eof())
+        {
+            Read_Value(2,l,c,v);
+            if(l==line && c==col)return v;
+        }
+    }
+
     return 0.0;
 }
 bool Matrix::MultiplicationM()
 {
-    double a;
+    double vM1,vM2,vM3;
+    int lM1,cM1,lM3,cM3;
+    string line;
+
     cout<< "Premiere opérande: " <<endl;
     Open(1);
     cout<< "Deuxieme opérande: " <<endl;
     Open(2);
-    int lM3,cM3;
-    if(!Check_Size(lM3,cM3))return false;
+    if(!Check_Size('m',lM3,cM3))return false;
     cout<< "Créer le fichier du résultat: " <<endl;
     Open(3);
-    string line;
 
-    int l,c;
-    double v;
+    M3<< lM3 << " " << cM3 << endl;
 
-    while(getline(M1,line))
+    Read_Size(1,lM1,cM1);
+
+    for(int i=0; i < lM3; i++)
     {
-    cout<<"ici1"<<endl;
-       Read_Value(1,l,c,v);
-        for(int i=0;i<lM3;i++)
+        for(int j=0; j < cM3; j++)
         {
-            for(int j=0;j<cM3;j++)
+            vM3=0;
+
+            for(int k=0; k < cM1; k++)
             {
-                M3<<i<<" ";
-                M3<<j<<" ";
-                if(v!=0.0)
-                {
-                    a=Place_to_Coord(c,l);
-                    if(a!=0.0)M3<<a*v;
-                    else M3<<0.0;
-                }
-                else M3<<0.0;
+                vM1=Place_to_Coord(1,i,k);
+                vM2=Place_to_Coord(2,k,j);
+                vM3+=vM1*vM2;
             }
-            M3<<"\n";
+
+            M3 << i << " "<< j << " " << vM3 << endl;
         }
     }
+
 
     CloseFile(1);
     CloseFile(2);
     CloseFile(3);
     return true;
 }
+
+
+bool Matrix::AdditionM()
+{
+    cout<<"Premier opérande:"<<endl;
+    Open(1);
+    cout<<"Deuxieme opérande: "<<endl;
+    Open(2);
+    int lm3,cm3;
+    if(!Check_Size('a',lm3,cm3))
+    {
+        cout<<"Matrices incompatible"<<endl;
+        return false;
+    }
+    cout<<"nom du fichier résultat:"<<endl;
+    Open(3);
+    M3<<lm3<<" "<<cm3<<endl;
+    int l,c;
+    double v2,v1;
+    while(!M1.eof())
+    {
+        Read_Value(1,l,c,v1);
+        Read_Value(2,l,c,v2);
+        M3<< l << " " << c << " " << v1+v2 << endl;
+    }
+    CloseFile(1);
+    CloseFile(2);
+    CloseFile(3);
+    return true;
+}
+bool Matrix::SoustractionM()
+{
+     cout<<"Premier opérande:"<<endl;
+    Open(1);
+    cout<<"Deuxieme opérande: "<<endl;
+    Open(2);
+    int lm3,cm3;
+    if(!Check_Size('s',lm3,cm3))
+    {
+        cout<<"Matrices incompatible"<<endl;
+        return false;
+    }
+    cout<<"nom du fichier résultat:"<<endl;
+    Open(3);
+    M3<<lm3<<" "<<cm3<<endl;
+    int l,c;
+    double v2,v1;
+    while(!M1.eof())
+    {
+        Read_Value(1,l,c,v1);
+        Read_Value(2,l,c,v2);
+        M3<< l << " " << c << " " << v1-v2 << endl;
+    }
+    CloseFile(1);
+    CloseFile(2);
+    CloseFile(3);
+    return true;
+}
+
+bool Matrix::AdditionV()
+{
+    double val,v;
+    int l,c;
+    cout<<"Entrez la matrice à manipuler "<<endl;
+    Open(1);
+    cout<<"Entrez le coefficent "<<endl;
+    cin>>val;
+    if(val==0) return false;
+    cout<<"Nom du fichier résultat: "<<endl;
+    Open(3);
+    Read_Size(1,l,c);
+    M3<<l<<" "<<c<<endl;
+    while(!M1.eof())
+    {
+        Read_Value(1,l,c,v);
+        M3<<l<<" "<<c<<" "<<v+val<<endl;
+    }
+
+    CloseFile(1);
+    CloseFile(3);
+    return true;
+}
+bool Matrix::SoustractionV()
+{
+    double val,v;
+    int l,c;
+    cout<<"Entrez la matrice à manipuler "<<endl;
+    Open(1);
+    cout<<"Entrez le coefficent "<<endl;
+    cin>>val;
+    if(val==0) return false;
+    cout<<"Nom du fichier résultat: "<<endl;
+    Open(3);
+    Read_Size(1,l,c);
+    M3<<l<<" "<<c<<endl;
+    while(!M1.eof())
+    {
+        Read_Value(1,l,c,v);
+        M3<<l<<" "<<c<<" "<<v-val<<endl;
+    }
+
+    CloseFile(1);
+    CloseFile(3);
+    return true;
+}
+bool Matrix::MultiplicationV()
+{
+    double val,v;
+    int l,c;
+    cout<<"Entrez la matrice à manipuler: "<<endl;
+    Open(1);
+    cout<<"Entrez le coefficent "<<endl;
+    cin>>val;
+    if(val==1) return false;
+    cout<<"Nom du fichier résultat: "<<endl;
+    Open(3);
+    Read_Size(1,l,c);
+    M3<<l<<" "<<c<<endl;
+    while(!M1.eof())
+    {
+        Read_Value(1,l,c,v);
+        M3<<l<<" "<<c<<" "<<v*val<<endl;
+    }
+
+    CloseFile(1);
+    CloseFile(3);
+    return true;
+}
+bool Matrix::DivisionV()
+{
+        double val,v;
+    int l,c;
+    cout<<"Entrez la matrice à manipuler: "<<endl;
+    Open(1);
+    cout<<"Entrez le coefficent "<<endl;
+    cin>>val;
+    if(val==0 || val==1) return false;
+    cout<<"Nom du fichier résultat: "<<endl;
+    Open(3);
+    Read_Size(1,l,c);
+    M3<<l<<" "<<c<<endl;
+    while(!M1.eof())
+    {
+        Read_Value(1,l,c,v);
+        M3<<l<<" "<<c<<" "<<v/val<<endl;
+    }
+
+    CloseFile(1);
+    CloseFile(3);
+    return true;
+}
+
+
 
