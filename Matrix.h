@@ -33,17 +33,17 @@ class Matrix
 
   //Manipulation
 
-  void SoustractionM();                               // soustraction de matrices (M)-(M)
-  void SoustractionV(double);                            // soustraction de la matrice par une valeur (M)-Val
+  bool SoustractionM();                               // soustraction de matrices (M)-(M)
+  bool SoustractionV();                            // soustraction de la matrice par une valeur (M)-Val
 
-  void AdditionM() ;                              // addition de matrices (M)+(M)
-  void AdditionV(double);                                // addition de la matrice par une valeur (M)+Val
+ bool AdditionM() ;                              // addition de matrices (M)+(M)
+  bool AdditionV();                                // addition de la matrice par une valeur (M)+Val
 
   bool MultiplicationM();                          // multiplication de matrices (M)*(M)
-  void MultiplicationV(double);                         // multiplication de la matrice par une valeur (M)*Val
+  bool MultiplicationV();                         // multiplication de la matrice par une valeur (M)*Val
 
-  void DivisionM();                               // division de matrices (M)/(M)
-  void DivisionV(double);                                // division de la matrice par une valeur (M)/Val
+  bool DivisionM();                               // division de matrices (M)/(M)
+  bool DivisionV();                                // division de la matrice par une valeur (M)/Val
 
   bool Pow(int);                                    // puissance (M)^v
   bool Modulo(int);                                    // modulo (M)%v
@@ -55,9 +55,11 @@ class Matrix
     // Fonctions sur les matrices
 
   void Read_Value(int ,int&, int&, double&);                                    // lit et retourne une valeur de la matrice
+  void Read_Size(int,int &,int&);
   bool Sparse();                     // matrice creuse ?
-  double Place_to_Coord(int line,int col);
-  bool Check_Size(int & l,int & c);
+  double Place_to_Coord(int matrix,int line,int col);
+  bool Check_Size(char m,int & l,int & c);
+
 
 
   private:
@@ -68,6 +70,7 @@ class Matrix
     fstream M2;                                          // le nom du fichier de la matrice sur laquelle on travaille
     fstream M3;
 };
+
 
 
 
