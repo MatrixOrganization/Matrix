@@ -12,12 +12,13 @@ class Matrix
 
   void Begin();                            // commence l’application
   void Menu();                            // Affiche les fonctionnalités
+  void ChooseOp();
 
   //Commandes:
 
   void NewMatrix();                                    // creer une matrice aléatoire
   void Back();                                          // permet de revenir à l’étape précédente
-  bool Delete(string);                                    // supprime une matrice de la BDD
+  void Delete();                                    // supprime une matrice de la BDD
   void DisplayDB();                                      // affiche les matrices de la BDD
                                     // ouvre un fichier txt “s” pour créer la matrice
 
@@ -36,7 +37,7 @@ class Matrix
   bool SoustractionM();                               // soustraction de matrices (M)-(M)
   bool SoustractionV();                            // soustraction de la matrice par une valeur (M)-Val
 
- bool AdditionM() ;                              // addition de matrices (M)+(M)
+  bool AdditionM() ;                              // addition de matrices (M)+(M)
   bool AdditionV();                                // addition de la matrice par une valeur (M)+Val
 
   bool MultiplicationM();                          // multiplication de matrices (M)*(M)
@@ -47,7 +48,7 @@ class Matrix
 
   bool Pow(int);                                    // puissance (M)^v
   bool Modulo(int);                                    // modulo (M)%v
-  bool Compare(string);                                    // comparaison de matrices (M)&(M)
+  bool Compare();                                    // comparaison de matrices (M)&(M)
   bool Range();                                          // rang de la matrice (M)
   bool Transpose();                                    // transposée de la matrice (M)
   bool Identity();                        // créé la matrice identité avec les même dimension que la matrice ouverte
@@ -60,10 +61,14 @@ class Matrix
   double Place_to_Coord(int matrix,int line,int col);
   bool Check_Size(char m,int & l,int & c);
 
+  void StartTimer();
+  void DisplayTimer();
+
 
 
   private:
 
+    clock_t begin, end;
     double **buffMatrix;                                        // sauvegarde de la matrice dans un fichier.txt
     string FileName;
     fstream M1;
