@@ -1,51 +1,169 @@
 #include "Matrix.h"
 #include <stdlib.h>
+
 void Matrix::Begin()
 {
     cout<< "Bienvenue" << endl;
     Menu();
 
 }
+
 void Matrix::Menu()
 {
-     int command;
-     string s;
+    int command;
+    string s;
+    system("clear");
+
     do
     {
+
         cout<< "Que voulez vous faire ?" << endl
         << "1-Creer un matrice" << endl
         << "2-Afficher les matrices de la base de donnée" << endl
         << "3-Manipulation"<<endl
-        << "4-Help" << endl
-        << "5-Quitter" << endl;
+        << "4-Suppression matrice"<<endl
+        << "5-Help" << endl
+        << "6-Quitter" << endl;
         cin>>command;
-        if(command==1) NewMatrix();
-       /* if(command==2)//Afficher les matrices déjà créé
+        if(command==1)
         {
+            system("clear");
+            StartTimer();
+            NewMatrix();
+            DisplayTimer();
+        }
+        if(command==2)//Afficher les matrices déjà créé
+        {
+            system("clear");
             DisplayDB();
-        }*/
+        }
         if(command==3)
         {
-            MultiplicationM();
+            system("clear");
+            ChooseOp();
         }
-        if(command==4)//Help
+        if(command==4)
         {
+            system("clear");
+            Delete();
+        }
+        if(command==5)
+        {
+            system("clear");
             cin>>s;
             Help(s);
         }
-    }while(command!=5);
+        
+    }while(command!=6);
 
+}
+
+void Matrix::ChooseOp()
+{
+    int command;
+    bool b;
+
+    system("clear");
+
+    do
+    {
+        cout<< "Que voulez vous faire ?" << endl
+        << "1-Addition" << endl
+        << "2-Soustraction" << endl
+        << "3-Multiplication"<<endl
+        << "4-Division" << endl
+        << "5-Annuler" << endl;
+
+        cin >> command;
+
+        DisplayDB();
+        
+        if(command==1)
+        {
+            cout << "Voulez-vous additioner deux matrices ou une matrice par un nombre?" << endl
+            << "1- Avec nombre" << endl
+            << "2- Avec matrice" << endl;
+            cin >> command;
+
+            if(command==1)
+            {
+                StartTimer();
+                AdditionV();
+                DisplayTimer();
+            }
+            else
+            {
+                StartTimer();
+                AdditionM();
+                DisplayTimer();
+            }
+        }
+        else if(command==2)
+        {
+            cout << "Voulez-vous additioner deux matrices ou une matrice par un nombre?" << endl
+            << "1- Avec nombre" << endl
+            << "2- Avec matrice" << endl;
+            cin >> command;
+
+            if(command==1)
+            {
+                StartTimer();
+                SoustractionV();
+                DisplayTimer();
+            }
+            else
+            {
+                StartTimer();
+                SoustractionM();
+                DisplayTimer();
+            }
+        }
+        else if(command==3)
+        {
+            cout << "Voulez-vous additioner deux matrices ou une matrice par un nombre?" << endl
+            << "1- Avec nombre" << endl
+            << "2- Avec matrice" << endl;
+            cin >> command;
+
+            if(command==1)
+            {
+                StartTimer();
+                MultiplicationV();
+                DisplayTimer();
+            }
+            else
+            {
+                StartTimer();
+                MultiplicationM();
+                DisplayTimer();
+            }
+            
+        }
+        else if(command==4)
+        {
+            StartTimer();
+            if(!DivisionV())
+                cout << "Erreur: Division par zéro" << endl;
+            DisplayTimer();
+        }
+        else
+            cout << "Erreur" << endl;
+    }while(command!=5);
 }
 
 
 void Matrix::Open(int m)
-{
+{   
+
+    string path="Matrix/";
     string c;
+
     cin>>c;
-    c+=".txt";
-    if(m==1)        M1.open(c.c_str(), ios::in| ios::out );
-    else if(m==2)    M2.open(c.c_str(), ios::in| ios::out );
-    else if(m==3)   M3.open(c.c_str(), ios::out|ios::in | ios::trunc);
+    path+=c;
+    path+=".txt";
+    if(m==1)        M1.open(path.c_str(), ios::in| ios::out );
+    else if(m==2)    M2.open(path.c_str(), ios::in| ios::out );
+    else if(m==3)   M3.open(path.c_str(), ios::out|ios::in | ios::trunc);
 }
 
 void Matrix::CloseFile(int m)
@@ -56,7 +174,6 @@ void Matrix::CloseFile(int m)
 }
 void Matrix::Read_Size(int matrice,int & l,int &c)
 {
-    string s;
     if(matrice==1) M1 >> l >> c;
     else if(matrice==2) M2 >> l >> c;
 }
@@ -71,7 +188,23 @@ void Matrix::Read_Value(int matrice,int &l, int &c, double &v) // lit et retourn
 
  void Matrix::DisplayDB()
  {
-    //sous entend que les matrices se trouvent dans le dossier DB
+    cout << endl << "Liste des fichiers" << endl;
+    system("./ls.sh");
+    cout << endl;
+ }
+
+ void Matrix::Delete()
+ {
+    string command="rm Matrix/";
+    string file;
+    cout << "Choisissez le fichier à supprimer:" << endl;
+    DisplayDB();
+
+    cin >> file;
+    file+=".txt";
+    command+=file;
+    system(command.c_str());
+
  }
 
  bool Matrix::Sparse() // matrice creuse ?
@@ -99,27 +232,29 @@ void Matrix::Read_Value(int matrice,int &l, int &c, double &v) // lit et retourn
 void Matrix::NewMatrix()
 {
 
-    int height;
-     int  weight;
+    int height, weight, sizeChoice;
+    double percent;
+
     cout<<"Longueur: "<<endl;
     cin >> height;
     cout<<"Largeur: "<<endl;
     cin >> weight;
 
-    int sizeChoice;
     cout << "Choix de la taille des valeurs" << endl;
-    cout << "Si 0-9: tapez 10 "<<
-    endl<<"si 0-99: tapez 100"<<
-    endl<<" si 0-999: tapez 1000"<<
-    endl<<" si 0-9999: tapez 10000" << endl;
+    cout <<"-Si 0-9: tapez 10 "<<
+    endl <<"-Si 0-99: tapez 100"<<
+    endl <<"-Si 0-999: tapez 1000"<<
+    endl <<"-Si 0-9999: tapez 10000" << endl;
 
     cin >> sizeChoice;
 
+    string z = "Matrix/";
     string nameFile;
     cout << "Nom du fichier de la matrice:" << endl << " -> ";
     cin >> nameFile;
-    nameFile+=".txt";
-    ofstream newMat(nameFile.c_str(), ios::out | ios::trunc);
+    z+=nameFile;
+    z+=".txt";
+    ofstream newMat(z.c_str(), ios::out | ios::trunc);
         if(!newMat.is_open())
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
 
@@ -128,6 +263,10 @@ void Matrix::NewMatrix()
             newMat << height << " " << weight << endl;
             for(int i=0; i<height; i++)
             {
+                system("clear");
+                percent = (double) i/(double)weight;
+                cout<<"Progression:"<< percent*100 << "%" <<endl;
+
                 for(int j=0; j<weight; j++)
                 {
                     newMat << i << " " << j << " " << rand()%sizeChoice << endl;
@@ -212,12 +351,33 @@ double Matrix::Place_to_Coord(int matrix,int line,int col)
 
     return 0.0;
 }
+
+void Matrix::StartTimer()
+{
+    begin = clock();
+}
+
+void Matrix::DisplayTimer()
+{
+    int tmp;
+    end = clock();
+    double timer = (double ) (end - begin)/CLOCKS_PER_SEC;
+    if(timer>60)
+    {
+        int tmp = timer/60;
+        int sec = (int) timer;
+        sec = sec%60;
+        cout << "Temps d'execution: " << tmp << " minutes " << sec << " secondes." << endl;
+    }
+    else
+       cout << "Temps d'execution: " << timer << " secondes." << endl;
+} 
+
 bool Matrix::MultiplicationM()
 {
-    double vM1,vM2,vM3;
+    double vM1,vM2,vM3,percent;
     int lM1,cM1,lM3,cM3;
     string line;
-
     cout<< "Premiere opérande: " <<endl;
     Open(1);
     cout<< "Deuxieme opérande: " <<endl;
@@ -227,23 +387,39 @@ bool Matrix::MultiplicationM()
     Open(3);
 
     M3<< lM3 << " " << cM3 << endl;
-
+    M1.seekg(0, M1.beg);
     Read_Size(1,lM1,cM1);
 
     for(int i=0; i < lM3; i++)
     {
+
+            system("clear");
+            percent = (double) i/(double)lM3;
+            cout<<"Progression:"<< percent*100 << "%" <<endl;
+        
+
         for(int j=0; j < cM3; j++)
         {
             vM3=0;
+            M1.seekg(0, M1.beg);
+            getline(M1,line);
+            M2.seekg(0, M2.beg);
+            getline(M2,line);
 
             for(int k=0; k < cM1; k++)
             {
                 vM1=Place_to_Coord(1,i,k);
                 vM2=Place_to_Coord(2,k,j);
-                vM3+=vM1*vM2;
-            }
 
-            M3 << i << " "<< j << " " << vM3 << endl;
+                if(vM1!=0 && vM2!=0)
+                    vM3+=vM1*vM2;
+                else if(vM1==1)
+                    vM3+=vM2;
+                else if(vM2==1)
+                    vM3+=vM1;
+            }   
+
+            M3 << i << " "<< j << " " << vM3 << endl; 
         }
     }
 
@@ -253,6 +429,7 @@ bool Matrix::MultiplicationM()
     CloseFile(3);
     return true;
 }
+
 
 
 bool Matrix::AdditionM()
@@ -276,7 +453,14 @@ bool Matrix::AdditionM()
     {
         Read_Value(1,l,c,v1);
         Read_Value(2,l,c,v2);
-        M3<< l << " " << c << " " << v1+v2 << endl;
+        if(v1!=0 && v2!=0)
+            M3<< l << " " << c << " " << v1+v2 << endl;
+        else if (v1==0)
+            M3<< l << " " << c << " " << v2 << endl;
+        else if (v2==0)
+            M3<< l << " " << c << " " << v1 << endl;
+        else
+            M3<< l << " " << c << " " << 0 << endl;
     }
     CloseFile(1);
     CloseFile(2);
@@ -405,5 +589,29 @@ bool Matrix::DivisionV()
     return true;
 }
 
+bool Matrix::Compare()
+{
+    double vM1,vM2;
+    int lM2,cM2;
+    cout<< "Premiere opérande: " <<endl;
+    Open(1);
+    cout<< "Deuxieme opérande: " <<endl;
+    Open(2);
+    Read_Size(1,lM1,cM1);
+    Read_Size(2,lM2,cM2);
+    if(lM1!=lM2 || cM1!=cM2)
+        return false;
+   
 
+    while(!M1.eof())
+    {
+       Read_Value(lM1,cM1,vM1);
+       Read_Value(lM1,cM1,vM2);
+       if(vM1!=vM2)return false;
+    }
 
+    CloseFile(1);
+    CloseFile(2);
+    
+    return true;
+}
