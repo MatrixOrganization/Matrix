@@ -46,9 +46,9 @@ class Matrix
   bool DivisionM();                               // division de matrices (M)/(M)
   bool DivisionV();                                // division de la matrice par une valeur (M)/Val
 
-  bool Pow(int);                                    // puissance (M)^v
-  bool Modulo(int);                                    // modulo (M)%v
-  bool Compare();                                    // comparaison de matrices (M)&(M)
+  bool Pow();                                    // puissance (M)^v
+  bool Modulo();                               // modulo (M)%v
+  bool Compare();                                 // comparaison de matrices (M)&(M)
   bool Range();                                          // rang de la matrice (M)
   bool Transpose();                                    // transposée de la matrice (M)
   bool Identity();                        // créé la matrice identité avec les même dimension que la matrice ouverte
