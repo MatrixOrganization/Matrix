@@ -72,7 +72,9 @@ void Matrix::ChooseOp()
         << "2-Soustraction" << endl
         << "3-Multiplication"<<endl
         << "4-Division" << endl
-        << "5-Annuler" << endl;
+        << "5-Identité" << endl
+        << "6-Matrice puissance N" << endl
+        << "7-Annuler" << endl;
 
         cin >> command;
 
@@ -100,7 +102,7 @@ void Matrix::ChooseOp()
         }
         else if(command==2)
         {
-            cout << "Voulez-vous additioner deux matrices ou une matrice par un nombre?" << endl
+            cout << "Voulez-vous soustraire deux matrices ou une matrice par un nombre?" << endl
             << "1- Avec nombre" << endl
             << "2- Avec matrice" << endl;
             cin >> command;
@@ -120,7 +122,7 @@ void Matrix::ChooseOp()
         }
         else if(command==3)
         {
-            cout << "Voulez-vous additioner deux matrices ou une matrice par un nombre?" << endl
+            cout << "Voulez-vous multipier deux matrices ou une matrice par un nombre?" << endl
             << "1- Avec nombre" << endl
             << "2- Avec matrice" << endl;
             cin >> command;
@@ -141,14 +143,27 @@ void Matrix::ChooseOp()
         }
         else if(command==4)
         {
+            //Pow();
+            // StartTimer();
+            // if(!DivisionV())
+            //     cout << "Erreur: Division par zéro" << endl;
+            // DisplayTimer();
+        }
+        else if(command==5)
+        {
             StartTimer();
-            if(!DivisionV())
-                cout << "Erreur: Division par zéro" << endl;
+            Identity();
+            DisplayTimer();
+        }
+        else if(command==6)
+        {
+            StartTimer();
+            Pow();
             DisplayTimer();
         }
         else
             cout << "Erreur" << endl;
-    }while(command!=5);
+    }while(command!=7);
 }
 
 
@@ -592,7 +607,7 @@ bool Matrix::DivisionV()
 bool Matrix::Compare()
 {
     double vM1,vM2;
-    int lM2,cM2;
+    int lM2,cM2,lM1,cM1;
     cout<< "Premiere opérande: " <<endl;
     Open(1);
     cout<< "Deuxieme opérande: " <<endl;
@@ -605,8 +620,8 @@ bool Matrix::Compare()
 
     while(!M1.eof())
     {
-       Read_Value(lM1,cM1,vM1);
-       Read_Value(lM1,cM1,vM2);
+       Read_Value(1,lM1,cM1,vM1);
+       Read_Value(2,lM1,cM1,vM2);
        if(vM1!=vM2)return false;
     }
 
@@ -615,3 +630,148 @@ bool Matrix::Compare()
     
     return true;
 }
+
+bool Matrix::Identity()
+{
+    int lM1,cM1;
+    cout<< "Calculer la matrice Identité pour: " <<endl;
+    Open(1);
+    
+    cout<<"Nom du fichier résultat: "<<endl;
+    Open(3);
+
+    Read_Size(1,lM1,cM1);
+    M3<<lM1<<" "<<cM1<<endl;
+
+    if(lM1==cM1)
+    {
+        for (int i = 0; i < lM1; i++)
+        {
+            for (int j = 0; j < cM1; j++)
+            {
+                if (i==j)
+                    M3 << i <<" " << j << " " << 1 << endl;
+                else
+                    M3 << i <<" " << j << " " << 0 << endl;
+
+            }
+        }
+    }
+    else
+    {
+        cout << "Erreur lors de l'ouverture de la matrice" << endl;
+        return false;
+    }
+
+    CloseFile(1);
+    CloseFile(3);
+    return true;
+
+}
+
+bool Matrix::Pow()
+{
+    double val,v,vTemp;
+    int l,c;
+
+    cout<<"Entrez la matrice à manipuler "<<endl;
+    Open(1);
+
+    cout<<"Entrez le coefficent "<<endl;
+    cin>>val;
+
+    cout<<"Nom du fichier résultat: "<<endl;
+    Open(3);
+
+    Read_Size(1,l,c);
+    M3<<l<<" "<<c<<endl;
+
+    while(!M1.eof())
+    {
+        if(val>=0)
+        {
+
+            Read_Value(1,l,c,v);
+
+            vTemp = v;
+
+            for(int i=1; i<val; i++) 
+                v*=vTemp; 
+            
+            M3<<l<<" "<<c<<" "<<v<<endl;
+
+        }
+        
+        else
+        {
+            Read_Value(1,l,c,v);
+
+            vTemp = v;
+
+            for(int i=1; i<-val; i++) 
+                v*=vTemp; 
+
+            M3<<l<<" "<<c<<" "<<1/v<<endl;
+        }
+        
+
+        
+    }
+
+    CloseFile(1);
+    CloseFile(3);
+
+    return true;
+}
+
+/*
+bool Modulo()
+{
+    double val,v;
+    int l,c;
+
+    cout<<"Entrez la matrice à manipuler "<<endl;
+    Open(1);
+
+    cout<<"Entrez le coefficent "<<endl;
+    cin>>val;
+
+    cout<<"Nom du fichier résultat: "<<endl;
+    Open(3);
+
+    Read_Size(1,l,c);
+    M3<<l<<" "<<c<<endl;
+
+    while(!M1.eof())
+    {
+        if(val>=0)
+        {
+
+            Read_Value(1,l,c,v);
+
+            vTemp = v;
+
+            for(int i=1; i<val; i++) 
+                v*=vTemp; 
+            
+            M3<<l<<" "<<c<<" "<<v<<endl;
+
+        }
+        
+        else
+        {
+            Read_Value(1,l,c,v);
+
+            vTemp = v;
+
+            for(int i=1; i<-val; i++) 
+                v*=vTemp; 
+
+            M3<<l<<" "<<c<<" "<<1/v<<endl;
+        }
+        
+
+        
+    }
+}
+*/
