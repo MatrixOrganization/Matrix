@@ -71,7 +71,7 @@ void Matrix::ChooseOp()
         << "1-Addition" << endl
         << "2-Soustraction" << endl
         << "3-Multiplication"<<endl
-        << "4-Division" << endl
+        << "4-Determiner si une matrice est creuse" << endl
         << "5-Identité" << endl
         << "6-Matrice puissance N" << endl
         << "7-Annuler" << endl;
@@ -143,11 +143,18 @@ void Matrix::ChooseOp()
         }
         else if(command==4)
         {
-            //Pow();
-            // StartTimer();
-            // if(!DivisionV())
-            //     cout << "Erreur: Division par zéro" << endl;
-            // DisplayTimer();
+            
+
+            if(Sparse())
+            {
+                system("clear");
+                cout << "La matrice est creuse" << endl << endl;
+            }
+            else
+            {
+                system("clear");
+                cout << "La matrice n'est pas creuse" << endl; 
+            }
         }
         else if(command==5)
         {
@@ -161,9 +168,10 @@ void Matrix::ChooseOp()
             Pow();
             DisplayTimer();
         }
-        else
+        else if(command>7 || command<1)
             cout << "Erreur" << endl;
     }while(command!=7);
+     system("clear");
 }
 
 
@@ -222,26 +230,32 @@ void Matrix::Read_Value(int matrice,int &l, int &c, double &v) // lit et retourn
 
  }
 
- bool Matrix::Sparse() // matrice creuse ?
+ bool Matrix::Sparse()
 {
     int l,c;
     double v;
-    int nb_value_zero = 0, nb_value = 0, percent_sparse = 90; // matrice creuse si 90% des valeurs sont = 0
+    double nb_value_zero = 0, nb_value = 0, percent_sparse = 90; // matrice creuse si 90% des valeurs sont = 0
     string value;
 
-    while(getline(M1, value))
+    cout<< "Matrice à vérifier: " <<endl;
+    Open(1);
+    Read_Size(1,l,c);
+
+    while(!M1.eof())
     {
         nb_value++;
         Read_Value(1,l,c,v);
-        if(v == 0.0)
+        if(v == 0)
             nb_value_zero++;
     }
 
-    nb_value_zero = (nb_value_zero*100)/nb_value;
+    
+    nb_value_zero = (nb_value_zero/nb_value)*100;
 
-    if(nb_value_zero >= percent_sparse)
-        return true; // creuse
-    return false; // pas creuse
+    if(nb_value_zero >= 90)
+        return true;
+
+    return false;
 }
 
 void Matrix::NewMatrix()
@@ -724,54 +738,4 @@ bool Matrix::Pow()
     return true;
 }
 
-/*
-bool Modulo()
-{
-    double val,v;
-    int l,c;
 
-    cout<<"Entrez la matrice à manipuler "<<endl;
-    Open(1);
-
-    cout<<"Entrez le coefficent "<<endl;
-    cin>>val;
-
-    cout<<"Nom du fichier résultat: "<<endl;
-    Open(3);
-
-    Read_Size(1,l,c);
-    M3<<l<<" "<<c<<endl;
-
-    while(!M1.eof())
-    {
-        if(val>=0)
-        {
-
-            Read_Value(1,l,c,v);
-
-            vTemp = v;
-
-            for(int i=1; i<val; i++) 
-                v*=vTemp; 
-            
-            M3<<l<<" "<<c<<" "<<v<<endl;
-
-        }
-        
-        else
-        {
-            Read_Value(1,l,c,v);
-
-            vTemp = v;
-
-            for(int i=1; i<-val; i++) 
-                v*=vTemp; 
-
-            M3<<l<<" "<<c<<" "<<1/v<<endl;
-        }
-        
-
-        
-    }
-}
-*/
