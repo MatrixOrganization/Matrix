@@ -42,15 +42,11 @@ class Matrix
 
   bool MultiplicationM();                          // multiplication de matrices (M)*(M)
   bool MultiplicationV();                         // multiplication de la matrice par une valeur (M)*Val
-
-  bool DivisionM();                               // division de matrices (M)/(M)
+                              // division de matrices (M)/(M)
   bool DivisionV();                                // division de la matrice par une valeur (M)/Val
 
-  bool Pow();                                    // puissance (M)^v
-  bool Modulo();                               // modulo (M)%v
-  bool Compare();                                 // comparaison de matrices (M)&(M)
-  bool Range();                                          // rang de la matrice (M)
-  bool Transpose();                                    // transposée de la matrice (M)
+  bool Pow();                                    // puissance (M)^v                              // modulo (M)%v
+  bool Compare();                                 // comparaison de matrices (M)&(M)                                         // rang de la matrice (M)                                   // transposée de la matrice (M)
   bool Identity();                        // créé la matrice identité avec les même dimension que la matrice ouverte
 
     // Fonctions sur les matrices
