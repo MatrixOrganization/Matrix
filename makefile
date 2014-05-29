@@ -13,5 +13,6 @@ matrix.o: Matrix.cpp
 clean:
 	rm -rf *.o
 	rm -rf *.exe
+	rm -rf exeMatrix
 begin:
 	clear && make exeMatrix && make ./$(EXEC)
