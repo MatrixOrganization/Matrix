@@ -4,18 +4,33 @@
 void Matrix::Begin()
 {
     cout<< "Bienvenue" << endl;
+    system("chmod a+x ls.sh");
+    system("mkdir Matrix");
     Menu();
 
 }
 
+void Matrix::FlushCin()
+{
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
 void Matrix::Menu()
 {
-    int command;
+    int command=0;
     string s;
     system("clear");
 
-    do
+    while(command!=6)
     {
+
+        if(cin.fail())
+        {
+            system("clear");
+            cout << "Erreur, veuillez entrer une commande valide: " << endl << endl;
+            FlushCin();
+        }
 
         cout<< "Que voulez vous faire ?" << endl
         << "1-Creer un matrice" << endl
@@ -24,7 +39,10 @@ void Matrix::Menu()
         << "4-Suppression matrice"<<endl
         << "5-Help" << endl
         << "6-Quitter" << endl;
+        
+        
         cin>>command;
+
         if(command==1)
         {
             system("clear");
@@ -54,7 +72,7 @@ void Matrix::Menu()
             Help(s);
         }
         
-    }while(command!=6);
+    }
 
 }
 
@@ -67,6 +85,13 @@ void Matrix::ChooseOp()
 
     do
     {
+        if(cin.fail())
+        {
+            system("clear");
+            cout << "Erreur, veuillez entrer une commande valide: " << endl << endl;
+            FlushCin();
+        }
+
         cout<< "Que voulez vous faire ?" << endl
         << "1-Addition" << endl
         << "2-Soustraction" << endl
@@ -76,10 +101,11 @@ void Matrix::ChooseOp()
         << "6-Matrice puissance N" << endl
         << "7-Annuler" << endl;
 
+        DisplayDB();
+
+        cout << "Commande (entre 1 et 7): ";
         cin >> command;
 
-        DisplayDB();
-        
         if(command==1)
         {
             cout << "Voulez-vous additioner deux matrices ou une matrice par un nombre?" << endl
@@ -168,14 +194,28 @@ void Matrix::ChooseOp()
             Pow();
             DisplayTimer();
         }
-        else if(command>7 || command<1)
-            cout << "Erreur" << endl;
+
     }while(command!=7);
+
      system("clear");
 }
 
+bool Matrix::CheckOpen(string S)
+{
+    fstream Check;
 
-void Matrix::Open(int m)
+    Check.open(S.c_str(), ios::in | ios::out);
+
+    if(Check)
+    {
+        Check.close();
+        return true;
+    }
+
+    return false;
+}
+
+bool Matrix::Open(int m)
 {   
 
     string path="Matrix/";
@@ -184,9 +224,16 @@ void Matrix::Open(int m)
     cin>>c;
     path+=c;
     path+=".txt";
-    if(m==1)        M1.open(path.c_str(), ios::in| ios::out );
-    else if(m==2)    M2.open(path.c_str(), ios::in| ios::out );
-    else if(m==3)   M3.open(path.c_str(), ios::out|ios::in | ios::trunc);
+
+    if(CheckOpen(path))
+    {
+        if(m==1)        M1.open(path.c_str(), ios::in| ios::out );
+        else if(m==2)    M2.open(path.c_str(), ios::in| ios::out );
+        else if(m==3)   M3.open(path.c_str(), ios::out|ios::in | ios::trunc);
+
+        return true;
+    }
+    return false;
 }
 
 void Matrix::CloseFile(int m)
@@ -238,7 +285,15 @@ void Matrix::Read_Value(int matrice,int &l, int &c, double &v) // lit et retourn
     string value;
 
     cout<< "Matrice à vérifier: " <<endl;
-    Open(1);
+    
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+    
     Read_Size(1,l,c);
 
     while(!M1.eof())
@@ -264,10 +319,28 @@ void Matrix::NewMatrix()
     int height, weight, sizeChoice;
     double percent;
 
-    cout<<"Longueur: "<<endl;
+    cout << "Pour créer une matrice, veuillez tapez:" << endl;
+    cout<<"La longueur: "<<endl;
     cin >> height;
-    cout<<"Largeur: "<<endl;
+
+    while(cin.fail() || height < 0)
+    {
+        FlushCin();
+        cout << "Entrez une longueur valide !" << endl;
+        cout << "Longueur: ";
+        cin >> height;
+    }
+
+    cout<<"La largeur: "<<endl;
     cin >> weight;
+
+    while(cin.fail() || weight < 0)
+    {
+        FlushCin();
+        cout << "Entrez une largeur valide !" << endl;
+        cout << "Largeur: ";
+        cin >> weight;
+    }
 
     cout << "Choix de la taille des valeurs" << endl;
     cout <<"-Si 0-9: tapez 10 "<<
@@ -277,12 +350,25 @@ void Matrix::NewMatrix()
 
     cin >> sizeChoice;
 
+    while(cin.fail() || weight < 0)
+    {
+        FlushCin();
+        cout << "Entrez une taille de valeurs valide !" << endl;
+        cout << "Choix de la taille des valeurs" << endl;
+        cout <<"-Si 0-9: tapez 10 "<<
+        endl <<"-Si 0-99: tapez 100"<<
+        endl <<"-Si 0-999: tapez 1000"<<
+        endl <<"-Si 0-9999: tapez 10000" << endl;
+        cin >> sizeChoice;
+    }
+
     string z = "Matrix/";
     string nameFile;
     cout << "Nom du fichier de la matrice:" << endl << " -> ";
     cin >> nameFile;
     z+=nameFile;
     z+=".txt";
+
     ofstream newMat(z.c_str(), ios::out | ios::trunc);
         if(!newMat.is_open())
             cout << "Impossible d'ouvrir le fichier en écriture !" << endl;
@@ -408,9 +494,25 @@ bool Matrix::MultiplicationM()
     int lM1,cM1,lM3,cM3;
     string line;
     cout<< "Premiere opérande: " <<endl;
-    Open(1);
+    
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
     cout<< "Deuxieme opérande: " <<endl;
-    Open(2);
+    
+    while(!Open(2))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
     if(!Check_Size('m',lM3,cM3))return false;
     cout<< "Créer le fichier du résultat: " <<endl;
     Open(3);
@@ -464,9 +566,25 @@ bool Matrix::MultiplicationM()
 bool Matrix::AdditionM()
 {
     cout<<"Premier opérande:"<<endl;
-    Open(1);
+    
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
     cout<<"Deuxieme opérande: "<<endl;
-    Open(2);
+    
+    while(!Open(2))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
     int lm3,cm3;
     if(!Check_Size('a',lm3,cm3))
     {
@@ -499,9 +617,25 @@ bool Matrix::AdditionM()
 bool Matrix::SoustractionM()
 {
      cout<<"Premier opérande:"<<endl;
-    Open(1);
+
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
     cout<<"Deuxieme opérande: "<<endl;
-    Open(2);
+
+    while(!Open(2))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
     int lm3,cm3;
     if(!Check_Size('s',lm3,cm3))
     {
@@ -530,9 +664,26 @@ bool Matrix::AdditionV()
     double val,v;
     int l,c;
     cout<<"Entrez la matrice à manipuler "<<endl;
-    Open(1);
-    cout<<"Entrez le coefficent "<<endl;
+    
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
+    cout << endl << "Entrez le coefficent "<<endl;
     cin>>val;
+
+    while(cin.fail())
+    {
+        FlushCin();
+        cout << "Entrez un coefficient valide !" << endl;
+        cout << "coefficient: ";
+        cin >> val;
+    }
+
     if(val==0) return false;
     cout<<"Nom du fichier résultat: "<<endl;
     Open(3);
@@ -553,9 +704,26 @@ bool Matrix::SoustractionV()
     double val,v;
     int l,c;
     cout<<"Entrez la matrice à manipuler "<<endl;
-    Open(1);
+    
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
     cout<<"Entrez le coefficent "<<endl;
     cin>>val;
+
+    while(cin.fail())
+    {
+        FlushCin();
+        cout << "Entrez un coefficient valide !" << endl;
+        cout << "coefficient: ";
+        cin >> val;
+    }
+
     if(val==0) return false;
     cout<<"Nom du fichier résultat: "<<endl;
     Open(3);
@@ -576,9 +744,26 @@ bool Matrix::MultiplicationV()
     double val,v;
     int l,c;
     cout<<"Entrez la matrice à manipuler: "<<endl;
-    Open(1);
+    
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
     cout<<"Entrez le coefficent "<<endl;
     cin>>val;
+
+    while(cin.fail())
+    {
+        FlushCin();
+        cout << "Entrez un coefficient valide !" << endl;
+        cout << "coefficient: ";
+        cin >> val;
+    }
+
     if(val==1) return false;
     cout<<"Nom du fichier résultat: "<<endl;
     Open(3);
@@ -599,9 +784,26 @@ bool Matrix::DivisionV()
         double val,v;
     int l,c;
     cout<<"Entrez la matrice à manipuler: "<<endl;
-    Open(1);
+   
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
     cout<<"Entrez le coefficent "<<endl;
     cin>>val;
+
+    while(cin.fail())
+    {
+        FlushCin();
+        cout << "Entrez un coefficient valide !" << endl;
+        cout << "coefficient: ";
+        cin >> val;
+    }
+
     if(val==0 || val==1) return false;
     cout<<"Nom du fichier résultat: "<<endl;
     Open(3);
@@ -623,9 +825,25 @@ bool Matrix::Compare()
     double vM1,vM2;
     int lM2,cM2,lM1,cM1;
     cout<< "Premiere opérande: " <<endl;
-    Open(1);
+    
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+
     cout<< "Deuxieme opérande: " <<endl;
-    Open(2);
+    
+    while(!Open(2))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
+    
     Read_Size(1,lM1,cM1);
     Read_Size(2,lM2,cM2);
     if(lM1!=lM2 || cM1!=cM2)
@@ -649,7 +867,14 @@ bool Matrix::Identity()
 {
     int lM1,cM1;
     cout<< "Calculer la matrice Identité pour: " <<endl;
-    Open(1);
+    
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
     
     cout<<"Nom du fichier résultat: "<<endl;
     Open(3);
@@ -689,10 +914,25 @@ bool Matrix::Pow()
     int l,c;
 
     cout<<"Entrez la matrice à manipuler "<<endl;
-    Open(1);
+    
+    while(!Open(1))
+    {
+        system("clear");
+        cout << "Entrez une matrice valide:" << endl;
+        DisplayDB();
+        cout << "Matrice: ";
+    }
 
     cout<<"Entrez le coefficent "<<endl;
     cin>>val;
+
+    while(cin.fail())
+    {
+        FlushCin();
+        cout << "Entrez un coefficient valide !" << endl;
+        cout << "coefficient: ";
+        cin >> val;
+    }
 
     cout<<"Nom du fichier résultat: "<<endl;
     Open(3);
